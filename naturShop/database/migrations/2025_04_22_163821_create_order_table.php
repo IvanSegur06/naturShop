@@ -13,6 +13,9 @@ return new class extends Migration
     {
         Schema::create('order', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('idUser');
+            $table->string('date');
+            $table->enum('status',['accepted','in progress','denied'])->default('in progress');
             $table->timestamps();
         });
     }

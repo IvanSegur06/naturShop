@@ -13,6 +13,10 @@ return new class extends Migration
     {
         Schema::create('shopping_cart_has_product', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('idProduct')->references('id')->on('product')->constrained()->onDelete('cascade');
+            $table->foreignId('idShoppingCart')->references('id')->on('shopping_carts')->constrained()->onDelete('cascade');
+            $table->integer('nProduct');
+            $table->float('price');
             $table->timestamps();
         });
     }
