@@ -8,6 +8,6 @@ Route::get('/', function () {
 
 
 
-Route::get('/home', function () {
+Route::get('/dashboard', function () {
     return view('auth.dashboard');
 })->middleware('auth');
