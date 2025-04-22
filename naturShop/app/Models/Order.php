@@ -5,14 +5,20 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Address extends Model
+class Order extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['street', 'number', 'city', 'country', 'postcode', 'idUser'];
+    protected $fillable = ['idUser', 'date', 'status'];
+
 
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function products()
+    {
+        return $this->belongsToMany(Product::class)->withPivot('nProduct', 'price');
     }
 }

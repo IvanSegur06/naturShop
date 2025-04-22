@@ -5,11 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Address extends Model
+class ShoppingCart extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['street', 'number', 'city', 'country', 'postcode', 'idUser'];
+    protected $fillable = ['idUser', 'total', 'amount'];
+
+
+    public function products()
+    {
+        return $this->belongsToMany(Product::class)->withPivot('nProduct','price');
+    }
 
     public function user()
     {
