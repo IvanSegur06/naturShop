@@ -17,6 +17,16 @@
                     @endif
                     You are logged in!
                 </div>
+                <div>
+                <form action="{{ route('usuario.eliminar', Auth::user()->id) }}" method="POST">
+    @csrf
+    @method('DELETE')
+    <button type="submit" class="btn btn-danger"
+            onclick="return confirm('¿Estás seguro de que deseas eliminar tu cuenta?')">
+        Eliminar mi usuario
+    </button>
+</form>
+                </div>
             </div>
         </div>
     </div>
