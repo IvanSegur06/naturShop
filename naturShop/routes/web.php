@@ -11,8 +11,13 @@ Route::get('/', function () {
 
 Route::get('/dashboard', function () {
     return view('auth.dashboard');
-})->middleware('auth');
+})->middleware('auth')->name('dashboard');
 
 
 //Prueba borrado de usuario
 Route::delete('/user/delete/{id}', [UserController::class, 'delete'])->name('usuario.eliminar');
+
+
+
+Route::get('/user/edit/{id}', [UserController::class, 'edit'])->name('usuario.editar');
+Route::put('/user/update/{id}', [UserController::class, 'update'])->name('usuario.actualizar');
