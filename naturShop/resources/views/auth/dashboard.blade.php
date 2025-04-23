@@ -35,6 +35,12 @@
                         </button>
                     </form>
                 </div>
+                <div class="card-body">
+                    <!-- Botón para ver los datos del usuario -->
+                    <a href="{{ route('user.data', Auth::user()->id) }}" class="btn btn-info mt-3">
+    Ver mis datos
+</a>
+                </div>
             </div>
         </div>
     </div>

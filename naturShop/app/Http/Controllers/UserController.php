@@ -63,5 +63,13 @@ class UserController extends Controller
 
 
 
+    public function showData($id)
+    {
+        $user = User::find($id); // Obtiene los datos del usuario autenticado
+        return view('user.data', compact('user')); // Pasa los datos a la vista
+    }
+
+
+
 
 }

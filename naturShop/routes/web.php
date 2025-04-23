@@ -18,6 +18,10 @@ Route::get('/dashboard', function () {
 Route::delete('/user/delete/{id}', [UserController::class, 'delete'])->name('usuario.eliminar');
 
 
-
+//Modificar datos de usuario
 Route::get('/user/edit/{id}', [UserController::class, 'edit'])->name('usuario.editar');
 Route::put('/user/update/{id}', [UserController::class, 'update'])->name('usuario.actualizar');
+
+
+//Consultar datos de usuario
+Route::get('/user/data/{id}', [UserController::class, 'showData'])->name('user.data');
