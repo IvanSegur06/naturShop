@@ -2,10 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ProductController;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+
 
 
 
@@ -25,3 +24,7 @@ Route::put('/user/update/{id}', [UserController::class, 'update'])->name('usuari
 
 //Consultar datos de usuario
 Route::get('/user/data/{id}', [UserController::class, 'showData'])->name('user.data');
+
+
+//Listar productos
+Route::get('/', [ProductController::class, 'index'])->name('productos.index');
