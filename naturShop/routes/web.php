@@ -3,14 +3,13 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\AddressController;
 
 
 
 
+Route::get('/dashboard', [AddressController::class, 'index'])->middleware('auth')->name('dashboard');
 
-Route::get('/dashboard', function () {
-    return view('auth.dashboard');
-})->middleware('auth')->name('dashboard');
 
 
 //Prueba borrado de usuario
@@ -28,3 +27,7 @@ Route::get('/user/data/{id}', [UserController::class, 'showData'])->name('user.d
 
 //Listar productos
 Route::get('/', [ProductController::class, 'index'])->name('productos.index');
+
+
+
+Route::resource('address', AddressController::class)->middleware('auth');
