@@ -12,5 +12,24 @@ class ProductController extends Controller
         $productos = Product::all();
         return view('product.index', compact('productos'));
     }
+
+    public function create()
+    {
+        return view('product.create');
+    }
+
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'name' => 'required|string',
+            'price' => 'required|numeric',
+            'stock' => 'required|integer',
+            'description' => 'required|string',
+        ]);
+
+        Product::create($validated);
+
+        return redirect()->route('dashboard')->with('success', 'Producto creado correctamente.');
+    }
 }
 

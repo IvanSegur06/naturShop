@@ -31,3 +31,7 @@ Route::get('/', [ProductController::class, 'index'])->name('productos.index');
 
 
 Route::resource('address', AddressController::class)->middleware('auth');
+
+
+Route::get('/products/create', [ProductController::class, 'create'])->name('products.create');
+Route::post('/products', [ProductController::class, 'store'])->name('products.store');

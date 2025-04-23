@@ -15,6 +15,13 @@
                         </div>
                     @endif
                     You are logged in!
+                    @if(Auth::user()->role === 'admin')
+                    <div class="card-body">
+    <a href="{{ route('products.create') }}" class="btn btn-warning">
+        Crear nuevo producto
+    </a>
+</div>
+                    @endif
                 </div>
 
                 <!-- Botón para editar los datos del usuario -->
@@ -72,6 +79,14 @@
                         <p>No tienes direcciones registradas.</p>
                     @endforelse
                 </div>
+
+                <form method="POST" action="{{ route('logout') }}">
+    @csrf
+    <button type="submit" class="btn btn-outline-secondary mt-3">
+        Cerrar sesión
+    </button>
+</form>
+
             </div>
 
         </div>
