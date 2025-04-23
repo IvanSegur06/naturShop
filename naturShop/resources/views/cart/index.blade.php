@@ -35,13 +35,6 @@
         @endforelse
     </div>
 
-    <!-- Mostrar el total del carrito -->
-    @if ($cart)
-        <div class="text-center mt-4">
-            <h4>Total: {{ number_format($cart->total, 2) }} €</h4>
-        </div>
-    @endif
-
     <!-- Botón para volver a la tienda -->
     <div class="text-center mt-4">
         <a href="{{ url('/') }}" class="btn btn-outline-success btn-lg">Volver a la tienda</a>
