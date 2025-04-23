@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\AddressController;
+use App\Http\Controllers\ShoppingCartController;
 
 
 
@@ -35,3 +36,10 @@ Route::resource('address', AddressController::class)->middleware('auth');
 
 Route::get('/products/create', [ProductController::class, 'create'])->name('products.create');
 Route::post('/products', [ProductController::class, 'store'])->name('products.store');
+
+
+Route::prefix('cart')->middleware('auth')->group(function() {
+    Route::get('/', [ShoppingCartController::class, 'index'])->name('cart.index');
+    Route::post('/add/{productId}', [ShoppingCartController::class, 'addProductToCart'])->name('cart.add');
+    Route::delete('/remove/{productId}', [ShoppingCartController::class, 'removeProduct'])->name('cart.remove');
+});

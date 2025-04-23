@@ -13,9 +13,11 @@ class Product extends Model
 
     protected $fillable = ['name', 'price', 'stock', 'description'];
 
-    public function shoppingCart()
+    public function shoppingCarts()
     {
-        return $this->belongsToMany(ShoppingCart::class)->withPivot('nProduct', 'price');
+        return $this->belongsToMany(ShoppingCart::class, 'shopping_cart_has_product', 'idProduct', 'idShoppingCart')
+                    ->withPivot('nProduct', 'price')
+                    ->withTimestamps();
     }
 
     public function orders()
