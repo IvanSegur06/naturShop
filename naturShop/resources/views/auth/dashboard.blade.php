@@ -5,6 +5,13 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
 
+            <!-- Botón para volver a la tienda -->
+            <div class="mb-3">
+                <a href="{{ url('/') }}" class="btn btn-outline-primary">
+                    Ir a la Tienda
+                </a>
+            </div>
+
             <div class="card">
                 <div class="card-header">Dashboard</div>
 
@@ -14,26 +21,23 @@
                             {{ session('status') }}
                         </div>
                     @endif
-                    You are logged in!
-                    @if(Auth::user()->role === 'admin')
-                    <div class="card-body">
-    <a href="{{ route('products.create') }}" class="btn btn-warning">
-        Crear nuevo producto
-    </a>
-</div>
-                    @endif
-                </div>
 
-                <!-- Botón para editar los datos del usuario -->
-                <div class="card-body">
-                    <a href="{{ route('usuario.editar', Auth::user()->id) }}" class="btn btn-primary">
+                    <p>You are logged in!</p>
+
+                    <!-- Botón solo para administradores -->
+                    @if(Auth::user()->role === 'admin')
+                        <a href="{{ route('products.create') }}" class="btn btn-warning mb-3">
+                            Crear nuevo producto
+                        </a>
+                    @endif
+
+                    <!-- Botón para editar los datos del usuario -->
+                    <a href="{{ route('usuario.editar', Auth::user()->id) }}" class="btn btn-primary mb-3">
                         Editar mis datos
                     </a>
-                </div>
 
-                <!-- Botón para eliminar el usuario -->
-                <div class="card-body">
-                    <form action="{{ route('usuario.eliminar', Auth::user()->id) }}" method="POST">
+                    <!-- Botón para eliminar el usuario -->
+                    <form action="{{ route('usuario.eliminar', Auth::user()->id) }}" method="POST" class="mb-3">
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="btn btn-danger"
@@ -41,17 +45,13 @@
                             Eliminar mi usuario
                         </button>
                     </form>
-                </div>
 
-                <!-- Botón para ver los datos del usuario -->
-                <div class="card-body">
-                    <a href="{{ route('user.data', Auth::user()->id) }}" class="btn btn-info">
+                    <!-- Botón para ver los datos del usuario -->
+                    <a href="{{ route('user.data', Auth::user()->id) }}" class="btn btn-info mb-4">
                         Ver mis datos
                     </a>
-                </div>
 
-                <!-- Sección de direcciones -->
-                <div class="card-body">
+                    <!-- Sección de direcciones -->
                     <h5>Mis direcciones</h5>
 
                     <a href="{{ route('address.create') }}" class="btn btn-success mb-3">
@@ -78,17 +78,17 @@
                     @empty
                         <p>No tienes direcciones registradas.</p>
                     @endforelse
+
+                    <!-- Botón para cerrar sesión -->
+                    <form method="POST" action="{{ route('logout') }}" class="mt-4">
+                        @csrf
+                        <button type="submit" class="btn btn-outline-secondary">
+                            Cerrar sesión
+                        </button>
+                    </form>
+
                 </div>
-
-                <form method="POST" action="{{ route('logout') }}">
-    @csrf
-    <button type="submit" class="btn btn-outline-secondary mt-3">
-        Cerrar sesión
-    </button>
-</form>
-
             </div>
-
         </div>
     </div>
 </div>
