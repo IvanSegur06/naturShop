@@ -24,19 +24,16 @@
 
                     <p>You are logged in!</p>
 
-                    <!-- Botón solo para administradores -->
                     @if(Auth::user()->role === 'admin')
                         <a href="{{ route('products.create') }}" class="btn btn-warning mb-3">
                             Crear nuevo producto
                         </a>
                     @endif
 
-                    <!-- Botón para editar los datos del usuario -->
                     <a href="{{ route('usuario.editar', Auth::user()->id) }}" class="btn btn-primary mb-3">
                         Editar mis datos
                     </a>
 
-                    <!-- Botón para eliminar el usuario -->
                     <form action="{{ route('usuario.eliminar', Auth::user()->id) }}" method="POST" class="mb-3">
                         @csrf
                         @method('DELETE')
@@ -46,19 +43,38 @@
                         </button>
                     </form>
 
-                    <!-- Botón para ver los datos del usuario -->
                     <a href="{{ route('user.data', Auth::user()->id) }}" class="btn btn-info mb-4">
                         Ver mis datos
                     </a>
 
                     <!-- Sección de direcciones -->
-                    <h5>Mis direcciones</h5>
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h5 class="mb-0">Mis direcciones</h5>
+                        <!-- Barra de búsqueda -->
+                        <form action="{{ route('dashboard') }}" method="GET" class="d-flex">
+                            <input type="text" name="search" class="form-control form-control-sm me-2" placeholder="Buscar dirección..." value="{{ request('search') }}">
+                            <button type="submit" class="btn btn-sm btn-outline-secondary">Buscar</button>
+                        </form>
+                    </div>
 
                     <a href="{{ route('address.create') }}" class="btn btn-success mb-3">
                         Añadir nueva dirección
                     </a>
 
-                    @forelse(Auth::user()->address as $address)
+                    @php
+                        $direcciones = Auth::user()->address;
+                        $search = request('search');
+                        if ($search) {
+                            $direcciones = $direcciones->filter(function ($address) use ($search) {
+                                return str_contains(strtolower($address->street), strtolower($search))
+                                    || str_contains(strtolower($address->city), strtolower($search))
+                                    || str_contains(strtolower($address->country), strtolower($search))
+                                    || str_contains(strtolower($address->postcode), strtolower($search));
+                            });
+                        }
+                    @endphp
+
+                    @forelse($direcciones as $address)
                         <div class="border p-2 mb-2 rounded">
                             {{ $address->street }}, {{ $address->number }} - {{ $address->city }} ({{ $address->postcode }}) - {{ $address->country }}
 
@@ -76,10 +92,9 @@
                             </div>
                         </div>
                     @empty
-                        <p>No tienes direcciones registradas.</p>
+                        <p>No se encontraron direcciones.</p>
                     @endforelse
 
-                    <!-- Botón para cerrar sesión -->
                     <form method="POST" action="{{ route('logout') }}" class="mt-4">
                         @csrf
                         <button type="submit" class="btn btn-outline-secondary">
