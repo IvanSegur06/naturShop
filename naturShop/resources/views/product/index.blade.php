@@ -49,11 +49,12 @@
                         {{-- Botón eliminar visible solo si el usuario es admin --}}
                         @auth
                             @if (auth()->user()->role === 'admin')
-                                <form action="{{ route('product.destroy', $producto->id) }}" method="POST" class="mt-2">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-outline-danger btn-sm">Eliminar producto ❌</button>
-                                </form>
+                            <form action="{{ route('product.destroy', $producto->id) }}" method="POST" class="mt-2" onsubmit="return confirm('¿Estás seguro de que deseas eliminar este producto?');">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-outline-danger btn-sm">Eliminar producto ❌</button>
+                        </form>
+
                             @endif
                         @endauth
                     </div>
