@@ -40,5 +40,19 @@ class ProductController extends Controller
     return redirect('/')->with('success', 'Producto eliminado correctamente.');
 }
 
+public function shop(Request $request)
+{
+    $productos = Product::query();
+
+    if ($request->has('search') && $request->search !== null) {
+        $productos->where('name', 'like', '%' . $request->search . '%');
+    }
+
+    return view('product.index', [
+        'productos' => $productos->get()
+    ]);
+}
+
+
 }
 

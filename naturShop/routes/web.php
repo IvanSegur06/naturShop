@@ -28,6 +28,7 @@ Route::get('/user/data/{id}', [UserController::class, 'showData'])->name('user.d
 
 //Listar productos
 Route::get('/', [ProductController::class, 'index'])->name('productos.index');
+Route::get('/', [ProductController::class, 'shop'])->name('shop');
 
 
 

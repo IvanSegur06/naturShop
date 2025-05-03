@@ -3,16 +3,25 @@
 @if (Route::has('login'))
     <nav class="-mx-3 flex flex-1 justify-end">
         @auth
-            <a href="{{ url('/dashboard') }}" class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white">
+            <a
+                href="{{ url('/dashboard') }}"
+                class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
+            >
                 Dashboard
             </a>
         @else
-            <a href="{{ route('login') }}" class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white">
+            <a
+                href="{{ route('login') }}"
+                class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
+            >
                 Log in
             </a>
 
             @if (Route::has('register'))
-                <a href="{{ route('register') }}" class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white">
+                <a
+                    href="{{ route('register') }}"
+                    class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
+                >
                     Register
                 </a>
             @endif
@@ -22,12 +31,18 @@
 
 @section('content')
 <div class="container mt-5">
-    <h1 class="text-center mb-4" style="color: #2e7d32; font-weight: bold;">
-        Bienvenido a naturShop 🌿
-    </h1>
-    <p class="text-center mb-5" style="color: #4caf50;">
-        Descubre nuestros productos naturales, seleccionados con cariño para ti.
-    </p>
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <div>
+            <h1 style="color: #2e7d32; font-weight: bold;">Bienvenido a naturShop 🌿</h1>
+            <p style="color: #4caf50;">Descubre nuestros productos naturales, seleccionados con cariño para ti.</p>
+        </div>
+
+        <!-- Barra de búsqueda alineada a la derecha -->
+        <form action="{{ route('shop') }}" method="GET" class="d-flex">
+            <input type="text" name="search" class="form-control me-2" placeholder="Buscar productos..." value="{{ request('search') }}">
+            <button type="submit" class="btn btn-success">Buscar 🔍</button>
+        </form>
+    </div>
 
     <div class="row">
         @forelse ($productos as $producto)
@@ -39,6 +54,7 @@
                         <p><strong>💰 Precio:</strong> {{ number_format($producto->price, 2) }} €</p>
                         <p><strong>📦 Stock:</strong> {{ $producto->stock }}</p>
 
+                        <!-- Botón añadir al carrito -->
                         <form action="{{ route('cart.add', $producto->id) }}" method="POST">
                             @csrf
                             <button type="submit" class="btn btn-outline-success btn-sm mt-2">
@@ -46,15 +62,14 @@
                             </button>
                         </form>
 
-                        {{-- Botón eliminar visible solo si el usuario es admin --}}
+                        <!-- Botón eliminar producto (solo admin) -->
                         @auth
                             @if (auth()->user()->role === 'admin')
-                            <form action="{{ route('product.destroy', $producto->id) }}" method="POST" class="mt-2" onsubmit="return confirm('¿Estás seguro de que deseas eliminar este producto?');">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-outline-danger btn-sm">Eliminar producto ❌</button>
-                        </form>
-
+                                <form action="{{ route('product.destroy', $producto->id) }}" method="POST" class="mt-2">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-outline-danger btn-sm">Eliminar producto 🗑️</button>
+                                </form>
                             @endif
                         @endauth
                     </div>
