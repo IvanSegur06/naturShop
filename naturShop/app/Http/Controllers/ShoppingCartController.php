@@ -20,6 +20,8 @@ class ShoppingCartController extends Controller
     return view('cart.show', compact('cart'));
 }
 
+
+
 public function index()
 {
     // Obtener el carrito de compras del usuario autenticado

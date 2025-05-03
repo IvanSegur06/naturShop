@@ -10,7 +10,15 @@
     </p>
 
     <div class="row">
+        @php
+            $total = 0;
+        @endphp
+
         @forelse ($productos as $producto)
+            @php
+                $total += $producto->pivot->price * $producto->pivot->nProduct;
+            @endphp
+
             <div class="col-md-4 mb-4">
                 <div class="card h-100 shadow-sm" style="border: 1px solid #e0e0e0;">
                     <div class="card-body">
@@ -33,6 +41,11 @@
                 <p class="text-muted">No tienes productos en tu carrito.</p>
             </div>
         @endforelse
+    </div>
+
+    <!-- Mostrar el total del carrito -->
+    <div class="text-right mt-4">
+        <h4>Total: {{ number_format($total, 2) }} €</h4>
     </div>
 
     <!-- Botón para volver a la tienda -->
