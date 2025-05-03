@@ -3,25 +3,16 @@
 @if (Route::has('login'))
     <nav class="-mx-3 flex flex-1 justify-end">
         @auth
-            <a
-                href="{{ url('/dashboard') }}"
-                class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
-            >
+            <a href="{{ url('/dashboard') }}" class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white">
                 Dashboard
             </a>
         @else
-            <a
-                href="{{ route('login') }}"
-                class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
-            >
+            <a href="{{ route('login') }}" class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white">
                 Log in
             </a>
 
             @if (Route::has('register'))
-                <a
-                    href="{{ route('register') }}"
-                    class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
-                >
+                <a href="{{ route('register') }}" class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white">
                     Register
                 </a>
             @endif
@@ -47,12 +38,24 @@
                         <p class="card-text">{{ $producto->description }}</p>
                         <p><strong>💰 Precio:</strong> {{ number_format($producto->price, 2) }} €</p>
                         <p><strong>📦 Stock:</strong> {{ $producto->stock }}</p>
+
                         <form action="{{ route('cart.add', $producto->id) }}" method="POST">
-    @csrf
-    <button type="submit" class="btn btn-outline-success btn-sm mt-2">
-        Añadir al carrito 🛒
-    </button>
-</form>
+                            @csrf
+                            <button type="submit" class="btn btn-outline-success btn-sm mt-2">
+                                Añadir al carrito 🛒
+                            </button>
+                        </form>
+
+                        {{-- Botón eliminar visible solo si el usuario es admin --}}
+                        @auth
+                            @if (auth()->user()->role === 'admin')
+                                <form action="{{ route('product.destroy', $producto->id) }}" method="POST" class="mt-2">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-outline-danger btn-sm">Eliminar producto ❌</button>
+                                </form>
+                            @endif
+                        @endauth
                     </div>
                 </div>
             </div>
