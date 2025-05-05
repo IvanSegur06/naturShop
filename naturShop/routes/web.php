@@ -5,6 +5,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\ShoppingCartController;
+use App\Http\Controllers\OrderController;
 
 
 
@@ -45,7 +46,7 @@ Route::prefix('cart')->middleware('auth')->group(function() {
     Route::post('/add/{productId}', [ShoppingCartController::class, 'addProductToCart'])->name('cart.add');
     Route::delete('/remove/{productId}', [ShoppingCartController::class, 'removeProduct'])->name('cart.remove');
     Route::post('/decrease/{productId}', [ShoppingCartController::class, 'decreaseProductQuantity'])->name('cart.decrease');
-
+    Route::post('/checkout', [OrderController::class, 'createOrder'])->name('checkout');
 });
 
 

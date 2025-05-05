@@ -11,11 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('order', function (Blueprint $table) {
+        Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('idUser');
-            $table->string('date');
-            $table->enum('status',['accepted','in progress','denied'])->default('in progress');
+            $table->foreignId('idUser')->constrained('users')->onDelete('cascade'); // Relación con la tabla 'users'
+            $table->date('date'); // Usar 'date' en lugar de 'string'
+            $table->enum('status', ['in progress', 'denied'])->default('in progress'); // Estatus de la orden
             $table->timestamps();
         });
     }
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('order');
+        Schema::dropIfExists('orders');
     }
 };

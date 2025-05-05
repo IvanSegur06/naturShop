@@ -58,6 +58,11 @@
         <h4>Total: {{ number_format($total, 2) }} €</h4>
     </div>
 
+    <form action="{{ route('checkout') }}" method="POST">
+    @csrf
+    <button type="submit" class="btn btn-primary">Generar Pedido</button>
+</form>
+
     <!-- Botón para volver a la tienda -->
     <div class="text-center mt-4">
         <a href="{{ url('/') }}" class="btn btn-outline-success btn-lg">Volver a la tienda</a>
