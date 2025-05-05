@@ -33,6 +33,16 @@
                             @method('DELETE')
                             <button type="submit" class="btn btn-outline-danger btn-sm mt-2">Eliminar del carrito</button>
                         </form>
+                        <form action="{{ route('cart.add', $producto->id) }}" method="POST" class="d-inline">
+    @csrf
+    <button type="submit" class="btn btn-outline-primary btn-sm mt-2">➕ Añadir uno más</button>
+</form>
+<!-- Botón para quitar una unidad -->
+<form action="{{ route('cart.decrease', $producto->id) }}" method="POST" class="d-inline">
+    @csrf
+    <button type="submit" class="btn btn-outline-warning btn-sm mt-2">➖ Quitar uno</button>
+</form>
+
                     </div>
                 </div>
             </div>

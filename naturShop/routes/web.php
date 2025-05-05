@@ -44,6 +44,8 @@ Route::prefix('cart')->middleware('auth')->group(function() {
     Route::get('/', [ShoppingCartController::class, 'index'])->name('cart.index');
     Route::post('/add/{productId}', [ShoppingCartController::class, 'addProductToCart'])->name('cart.add');
     Route::delete('/remove/{productId}', [ShoppingCartController::class, 'removeProduct'])->name('cart.remove');
+    Route::post('/decrease/{productId}', [ShoppingCartController::class, 'decreaseProductQuantity'])->name('cart.decrease');
+
 });
 
 

@@ -82,4 +82,31 @@ public function removeProduct($productId)
 
     return redirect()->route('cart.index')->with('error', 'Error al eliminar el producto.');
 }
+
+public function decreaseProductQuantity($productId)
+{
+    $cart = ShoppingCart::where('idUser', auth()->id())->first();
+
+    if (!$cart) return redirect()->route('cart.index');
+
+    $product = $cart->products()->where('product.id', $productId)->first();
+
+    if ($product) {
+        $newQty = $product->pivot->nProduct - 1;
+
+        if ($newQty <= 0) {
+            // Eliminar del carrito si la cantidad llega a 0
+            $cart->products()->detach($productId);
+        } else {
+            // Actualizar cantidad
+            $cart->products()->updateExistingPivot($productId, [
+                'nProduct' => $newQty,
+                'price' => $product->pivot->price,
+            ]);
+        }
+    }
+
+    return redirect()->route('cart.index')->with('status', 'Cantidad actualizada');
+}
+
 }
