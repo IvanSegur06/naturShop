@@ -51,7 +51,7 @@ public function shop(Request $request)
     }
 
     // Filtro por favoritos (solo si el usuario está autenticado)
-    if ($request->has('favorites') && auth()->check()) {
+    if ($request->has('filter') && $request->filter == 'favorites' && auth()->check()) {
         $query->whereHas('favoredByUsers', function ($q) {
             $q->where('user_id', auth()->id());
         });
@@ -62,7 +62,6 @@ public function shop(Request $request)
 
     return view('product.index', compact('productos'));
 }
-
 
 
 }

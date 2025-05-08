@@ -14,10 +14,14 @@
             <button type="submit" class="btn btn-success">Buscar 🔍</button>
         </form>
 
-        <!-- Filtro de favoritos -->
-        @auth
-        <a href="{{ route('shop', ['favorites' => '1']) }}" class="btn btn-outline-success ms-2">Mostrar solo favoritos</a>
-        @endauth
+        <!-- Desplegable para filtrar productos -->
+        <form action="{{ route('shop') }}" method="GET" class="ms-2">
+            <select name="filter" class="form-select">
+                <option value="" {{ request('filter') == '' ? 'selected' : '' }}>Todos los productos</option>
+                <option value="favorites" {{ request('filter') == 'favorites' ? 'selected' : '' }}>Solo favoritos</option>
+            </select>
+            <button type="submit" class="btn btn-outline-success ms-2">Filtrar</button>
+        </form>
     </div>
 
     <div class="row">
