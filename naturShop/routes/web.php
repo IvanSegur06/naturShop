@@ -50,4 +50,8 @@ Route::prefix('cart')->middleware('auth')->group(function() {
 });
 
 
+Route::post('/favoritos/{product}', [\App\Http\Controllers\FavoriteController::class, 'toggle'])->name('favorites.toggle')->middleware('auth');
+
+
+
 

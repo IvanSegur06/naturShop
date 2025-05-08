@@ -64,4 +64,10 @@ class User extends Authenticatable
     {
         return $this->hasOne(ShoppingCart::class) ;
     }
+
+    public function favoriteProducts()
+{
+    return $this->belongsToMany(Product::class, 'favorite_product', 'user_id', 'product_id')->withTimestamps();
+}
+
 }

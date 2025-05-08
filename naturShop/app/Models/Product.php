@@ -26,4 +26,10 @@ class Product extends Model
                 ->withPivot('nProduct', 'price')
                 ->withTimestamps();
     }
+
+    public function favoredByUsers()
+{
+    return $this->belongsToMany(User::class, 'favorite_product', 'product_id', 'user_id')->withTimestamps();
+}
+
 }

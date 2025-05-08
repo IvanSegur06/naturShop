@@ -61,6 +61,18 @@
                                 Añadir al carrito 🛒
                             </button>
                         </form>
+                        <!-- Botón añadir a favoritos -->
+@auth
+    <form action="{{ route('favorites.toggle', $producto->id) }}" method="POST" class="mt-2">
+        @csrf
+        @if(auth()->user()->favoriteProducts->contains($producto->id))
+            <button type="submit" class="btn btn-outline-danger btn-sm">Quitar de favoritos ❤️</button>
+        @else
+            <button type="submit" class="btn btn-outline-primary btn-sm">Añadir a favoritos 🤍</button>
+        @endif
+    </form>
+@endauth
+
 
                         <!-- Botón eliminar producto (solo admin) -->
                         @auth
