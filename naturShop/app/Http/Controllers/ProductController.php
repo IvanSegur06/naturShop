@@ -42,16 +42,27 @@ class ProductController extends Controller
 
 public function shop(Request $request)
 {
-    $productos = Product::query();
+    // Obtener todos los productos
+    $query = Product::query();
 
-    if ($request->has('search') && $request->search !== null) {
-        $productos->where('name', 'like', '%' . $request->search . '%');
+    // Filtro por búsqueda
+    if ($request->has('search') && $request->search != '') {
+        $query->where('name', 'like', '%' . $request->search . '%');
     }
 
-    return view('product.index', [
-        'productos' => $productos->get()
-    ]);
+    // Filtro por favoritos (solo si el usuario está autenticado)
+    if ($request->has('favorites') && auth()->check()) {
+        $query->whereHas('favoredByUsers', function ($q) {
+            $q->where('user_id', auth()->id());
+        });
+    }
+
+    // Obtener los productos con los filtros aplicados
+    $productos = $query->get();
+
+    return view('product.index', compact('productos'));
 }
+
 
 
 }

@@ -1,34 +1,5 @@
 @extends('auth.template')
 
-@if (Route::has('login'))
-    <nav class="-mx-3 flex flex-1 justify-end">
-        @auth
-            <a
-                href="{{ url('/dashboard') }}"
-                class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
-            >
-                Dashboard
-            </a>
-        @else
-            <a
-                href="{{ route('login') }}"
-                class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
-            >
-                Log in
-            </a>
-
-            @if (Route::has('register'))
-                <a
-                    href="{{ route('register') }}"
-                    class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
-                >
-                    Register
-                </a>
-            @endif
-        @endauth
-    </nav>
-@endif
-
 @section('content')
 <div class="container mt-5">
     <div class="d-flex justify-content-between align-items-center mb-3">
@@ -42,6 +13,11 @@
             <input type="text" name="search" class="form-control me-2" placeholder="Buscar productos..." value="{{ request('search') }}">
             <button type="submit" class="btn btn-success">Buscar 🔍</button>
         </form>
+
+        <!-- Filtro de favoritos -->
+        @auth
+        <a href="{{ route('shop', ['favorites' => '1']) }}" class="btn btn-outline-success ms-2">Mostrar solo favoritos</a>
+        @endauth
     </div>
 
     <div class="row">
@@ -61,18 +37,18 @@
                                 Añadir al carrito 🛒
                             </button>
                         </form>
-                        <!-- Botón añadir a favoritos -->
-@auth
-    <form action="{{ route('favorites.toggle', $producto->id) }}" method="POST" class="mt-2">
-        @csrf
-        @if(auth()->user()->favoriteProducts->contains($producto->id))
-            <button type="submit" class="btn btn-outline-danger btn-sm">Quitar de favoritos ❤️</button>
-        @else
-            <button type="submit" class="btn btn-outline-primary btn-sm">Añadir a favoritos 🤍</button>
-        @endif
-    </form>
-@endauth
 
+                        <!-- Botón añadir a favoritos -->
+                        @auth
+                            <form action="{{ route('favorites.toggle', $producto->id) }}" method="POST" class="mt-2">
+                                @csrf
+                                @if(auth()->user()->favoriteProducts->contains($producto->id))
+                                    <button type="submit" class="btn btn-outline-danger btn-sm">Quitar de favoritos ❤️</button>
+                                @else
+                                    <button type="submit" class="btn btn-outline-primary btn-sm">Añadir a favoritos 🤍</button>
+                                @endif
+                            </form>
+                        @endauth
 
                         <!-- Botón eliminar producto (solo admin) -->
                         @auth
