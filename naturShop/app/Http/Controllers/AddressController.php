@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Address;
+use App\Models\Category;
 
 class AddressController extends Controller
 {
@@ -17,8 +18,9 @@ class AddressController extends Controller
         }
 
         $address = $user->address;
+        $categorias = Category::all(); 
 
-        return view('auth.dashboard', compact('address'));
+        return view('auth.dashboard', compact('address', 'categorias'));
     }
 
     public function create()

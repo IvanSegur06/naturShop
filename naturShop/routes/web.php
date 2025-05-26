@@ -56,5 +56,6 @@ Route::post('/favoritos/{product}', [\App\Http\Controllers\FavoriteController::c
 
 
 Route::post('/products/{product}/assign-category', [CategoryController::class, 'assign'])->name('products.assignCategory');
-
+Route::post('/categories', [CategoryController::class, 'store'])->name('categories.store');
+Route::delete('/categories/{id}', [CategoryController::class, 'destroy'])->name('categories.destroy');
 

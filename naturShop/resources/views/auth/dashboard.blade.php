@@ -29,6 +29,30 @@
                             Crear nuevo producto
                         </a>
                     @endif
+                    <!-- Gestión de categorías (solo admin) -->
+@if(Auth::user()->role === 'admin')
+    <hr>
+    <h5>Categorías</h5>
+
+    <!-- Formulario para crear nueva categoría -->
+    <form action="{{ route('categories.store') }}" method="POST" class="mb-3 d-flex gap-2">
+        @csrf
+        <input type="text" name="nameCategory" class="form-control" placeholder="Nombre de la categoría" required>
+        <button type="submit" class="btn btn-success">Crear categoría</button>
+    </form>
+
+    <!-- Listado y botón de eliminar -->
+    @foreach($categorias as $categoria)
+        <div class="d-flex justify-content-between align-items-center border rounded p-2 mb-2">
+            <span>{{ $categoria->nameCategory }}</span>
+            <form action="{{ route('categories.destroy', $categoria->idCategory) }}" method="POST" onsubmit="return confirm('¿Eliminar esta categoría?')">
+                @csrf
+                @method('DELETE')
+                <button class="btn btn-sm btn-danger">Eliminar</button>
+            </form>
+        </div>
+    @endforeach
+@endif
 
                     <a href="{{ route('usuario.editar', Auth::user()->id) }}" class="btn btn-primary mb-3">
                         Editar mis datos

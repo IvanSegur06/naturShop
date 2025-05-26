@@ -21,6 +21,25 @@ class CategoryController extends Controller
     }
 
 
-   
+   public function store(Request $request)
+{
+    $request->validate([
+        'nameCategory' => 'required|string|max:255',
+    ]);
+
+    Category::create([
+        'nameCategory' => $request->nameCategory,
+    ]);
+
+    return redirect()->back()->with('status', 'Categoría creada correctamente.');
+}
+
+public function destroy($id)
+{
+    $category = Category::findOrFail($id);
+    $category->delete();
+
+    return redirect()->back()->with('status', 'Categoría eliminada.');
+}
 
 }

@@ -60,7 +60,14 @@
                         <p class="card-text">{{ $producto->description }}</p>
                         <p><strong>💰 Precio:</strong> {{ number_format($producto->price, 2) }} €</p>
                         <p><strong>📦 Stock:</strong> {{ $producto->stock }}</p>
-
+                        <p><strong>📦 Stock:</strong> {{ $producto->stock }}</p>
+<p><strong>🏷️ Categoría(s):</strong>
+    @if($producto->categories->isEmpty())
+        <span class="text-muted">Sin categoría</span>
+    @else
+        {{ $producto->categories->pluck('nameCategory')->join(', ') }}
+    @endif
+</p>
                         <!-- Botón añadir al carrito -->
                         <form action="{{ route('cart.add', $producto->id) }}" method="POST">
                             @csrf
@@ -108,6 +115,7 @@
         </form>
     @endif
 @endauth
+
                     </div>
                 </div>
             </div>
