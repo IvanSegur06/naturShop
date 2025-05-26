@@ -41,26 +41,32 @@ class ProductController extends Controller
     return redirect('/')->with('success', 'Producto eliminado correctamente.');
 }
 
+
 public function shop(Request $request)
 {
-    // Obtener todos los productos
-    $query = Product::query();
+    $query = Product::with('categories');
 
-    // Filtro por búsqueda
-    if ($request->has('search') && $request->search != '') {
-        $query->where('name', 'like', '%' . $request->search . '%');
-    }
-
-    // Filtro por favoritos (solo si el usuario está autenticado)
-    if ($request->has('filter') && $request->filter == 'favorites' && auth()->check()) {
-        $query->whereHas('favoredByUsers', function ($q) {
+    // Filtro por favoritos
+    if ($request->filter === 'favorites' && auth()->check()) {
+        $query->whereHas('favoritedBy', function ($q) {
             $q->where('user_id', auth()->id());
         });
     }
 
-    // Obtener los productos con los filtros aplicados
+    // Filtro por categoría
+    if ($request->filled('category')) {
+        $query->whereHas('categories', function ($q) use ($request) {
+            $q->where('category.idCategory', $request->category);
+        });
+    }
+
+    // Filtro por búsqueda
+    if ($request->filled('search')) {
+        $query->where('name', 'like', '%' . $request->search . '%');
+    }
+
     $productos = $query->get();
-    $categorias = Category::all(); 
+    $categorias = Category::all();
 
     return view('product.index', compact('productos', 'categorias'));
 }

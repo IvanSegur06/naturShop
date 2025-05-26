@@ -41,14 +41,24 @@
             <button type="submit" class="btn btn-success">Buscar 🔍</button>
         </form>
 
-        <!-- Desplegable para filtrar productos -->
-        <form action="{{ route('shop') }}" method="GET" class="ms-2">
-            <select name="filter" class="form-select">
-                <option value="" {{ request('filter') == '' ? 'selected' : '' }}>Todos los productos</option>
-                <option value="favorites" {{ request('filter') == 'favorites' ? 'selected' : '' }}>Solo favoritos</option>
-            </select>
-            <button type="submit" class="btn btn-outline-success ms-2">Filtrar</button>
-        </form>
+       <!-- Filtros de productos -->
+<form action="{{ route('shop') }}" method="GET" class="d-flex align-items-center ms-2 gap-2">
+    <select name="filter" class="form-select">
+        <option value="" {{ request('filter') == '' ? 'selected' : '' }}>Todos los productos</option>
+        <option value="favorites" {{ request('filter') == 'favorites' ? 'selected' : '' }}>Solo favoritos</option>
+    </select>
+
+    <select name="category" class="form-select">
+        <option value="">Todas las categorías</option>
+        @foreach ($categorias as $categoria)
+            <option value="{{ $categoria->idCategory }}" {{ request('category') == $categoria->idCategory ? 'selected' : '' }}>
+                {{ $categoria->nameCategory }}
+            </option>
+        @endforeach
+    </select>
+
+    <button type="submit" class="btn btn-outline-success">Filtrar</button>
+</form>
     </div>
 
     <div class="row">
