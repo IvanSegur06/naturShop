@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Product;
+use App\Models\Category;
 
 class ProductController extends Controller
 {
@@ -59,8 +60,9 @@ public function shop(Request $request)
 
     // Obtener los productos con los filtros aplicados
     $productos = $query->get();
+    $categorias = Category::all(); 
 
-    return view('product.index', compact('productos'));
+    return view('product.index', compact('productos', 'categorias'));
 }
 
 

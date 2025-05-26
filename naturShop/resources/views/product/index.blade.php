@@ -91,6 +91,23 @@
                                 </form>
                             @endif
                         @endauth
+                        <!-- Formulario para asignar categoría (solo admin) -->
+@auth
+    @if (auth()->user()->role === 'admin')
+        <form action="{{ route('products.assignCategory', $producto->id) }}" method="POST" class="mt-2">
+            @csrf
+            <div class="input-group">
+                <select name="category_id" class="form-select form-select-sm" required>
+                    <option value="">Selecciona categoría</option>
+                    @foreach ($categorias as $categoria)
+                        <option value="{{ $categoria->idCategory }}">{{ $categoria->nameCategory }}</option>
+                    @endforeach
+                </select>
+                <button type="submit" class="btn btn-sm btn-outline-secondary">Asignar</button>
+            </div>
+        </form>
+    @endif
+@endauth
                     </div>
                 </div>
             </div>

@@ -23,18 +23,22 @@ class Product extends Model
     public function orders()
     {
         return $this->belongsToMany(Order::class, 'order_has_product', 'idProduct', 'idOrder')
-                ->withPivot('nProduct', 'price')
-                ->withTimestamps();
+                    ->withPivot('nProduct', 'price')
+                    ->withTimestamps();
     }
 
     public function favoredByUsers()
-{
-    return $this->belongsToMany(User::class, 'favorite_product', 'product_id', 'user_id')->withTimestamps();
-}
+    {
+        return $this->belongsToMany(User::class, 'favorite_product', 'product_id', 'user_id')->withTimestamps();
+    }
 
-public function usersWhoFavorited()
-{
-    return $this->belongsToMany(User::class, 'favorites', 'product_id', 'user_id');
-}
+    public function usersWhoFavorited()
+    {
+        return $this->belongsToMany(User::class, 'favorites', 'product_id', 'user_id');
+    }
 
+    public function categories()
+    {
+        return $this->belongsToMany(Category::class, 'category_has_product', 'Product_idProduct', 'Category_idCategory');
+    }
 }

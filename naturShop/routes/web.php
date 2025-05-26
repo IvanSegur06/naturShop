@@ -6,7 +6,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\ShoppingCartController;
 use App\Http\Controllers\OrderController;
-
+use App\Http\Controllers\CategoryController;
 
 
 
@@ -53,5 +53,8 @@ Route::prefix('cart')->middleware('auth')->group(function() {
 Route::post('/favoritos/{product}', [\App\Http\Controllers\FavoriteController::class, 'toggle'])->name('favorites.toggle')->middleware('auth');
 
 
+
+
+Route::post('/products/{product}/assign-category', [CategoryController::class, 'assign'])->name('products.assignCategory');
 
 
