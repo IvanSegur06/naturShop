@@ -46,6 +46,21 @@
                     </div>
                 </div>
             </div>
+
+            <form action="{{ route('cart.applyDiscount') }}" method="POST" class="mb-3">
+    @csrf
+    <div class="input-group">
+        <input type="text" name="discount_code" class="form-control" placeholder="Código de descuento" required>
+        <button type="submit" class="btn btn-success">Aplicar</button>
+    </div>
+    @if(session('success'))
+        <div class="alert alert-success mt-2">{{ session('success') }}</div>
+    @endif
+    @if(session('error'))
+        <div class="alert alert-danger mt-2">{{ session('error') }}</div>
+    @endif
+</form>
+
         @empty
             <div class="col-12 text-center">
                 <p class="text-muted">No tienes productos en tu carrito.</p>

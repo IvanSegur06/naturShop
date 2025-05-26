@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\ShoppingCart;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Discount;
 
 use App\Models\Product;
 
@@ -108,5 +109,30 @@ public function decreaseProductQuantity($productId)
 
     return redirect()->route('cart.index')->with('status', 'Cantidad actualizada');
 }
+
+public function applyDiscount(Request $request)
+{
+    $request->validate([
+        'discount_code' => 'required|string',
+    ]);
+
+    $discount = Discount::where('code', $request->discount_code)->first();
+
+    if (!$discount) {
+        return redirect()->back()->with('error', 'Código de descuento no válido.');
+    }
+
+    $cart = ShoppingCart::where('idUser', auth()->id())->first();
+
+    if (!$cart) {
+        return redirect()->back()->with('error', 'Carrito no encontrado.');
+    }
+
+    $cart->idDiscount = $discount->id;
+    $cart->save();
+
+    return redirect()->back()->with('success', 'Descuento aplicado correctamente.');
+}
+
 
 }

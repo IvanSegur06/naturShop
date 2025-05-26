@@ -59,3 +59,4 @@ Route::post('/products/{product}/assign-category', [CategoryController::class, '
 Route::post('/categories', [CategoryController::class, 'store'])->name('categories.store');
 Route::delete('/categories/{id}', [CategoryController::class, 'destroy'])->name('categories.destroy');
 
+Route::post('/cart/apply-discount', [ShoppingCartController::class, 'applyDiscount'])->name('cart.applyDiscount');
