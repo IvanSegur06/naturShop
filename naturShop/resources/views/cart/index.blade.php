@@ -69,9 +69,23 @@
     </div>
 
     <!-- Mostrar el total del carrito -->
-    <div class="text-right mt-4">
-        <h4>Total: {{ number_format($total, 2) }} €</h4>
-    </div>
+    @php
+    $discountPercentage = $cart && $cart->idDiscount ? $cart->discount->percentage : 0;
+    $discountAmount = $total * ($discountPercentage / 100);
+    $totalWithDiscount = $total - $discountAmount;
+@endphp
+
+<div class="text-right mt-4">
+      
+
+    @if ($discountPercentage > 0)
+        <p class="text-success">
+            Descuento aplicado ({{ $discountPercentage }}%): -{{ number_format($discountAmount, 2) }} €
+        </p>
+        <h4>Total con descuento: <strong>{{ number_format($totalWithDiscount, 2) }} €</strong></h4>
+    @endif
+</div>
+
 
     <form action="{{ route('checkout') }}" method="POST">
     @csrf
